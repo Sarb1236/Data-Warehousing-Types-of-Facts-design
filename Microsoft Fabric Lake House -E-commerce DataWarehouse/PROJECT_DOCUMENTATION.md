@@ -1,6 +1,6 @@
 # Microsoft Fabric Lake House - Multi-Fact E-commerce Project Documentation
 
-## 📋 Table of Contents
+##  Table of Contents
 
 1. [Project Overview](#project-overview)
 2. [Architecture Overview](#architecture-overview)
@@ -16,21 +16,21 @@
 
 ---
 
-## 🎯 Project Overview
+##  Project Overview
 
 This project implements a **Microsoft Fabric Lake House** solution for a multi-fact e-commerce system using a **medallion architecture** (Bronze → Silver → Gold) with **star schema** principles. The solution is **configuration-driven** and **production-ready** with SCD2 dimensions, multiple fact types, and comprehensive control tables.
 
 ### Key Features
-- ✅ **SCD2 (Slowly Changing Dimensions Type 2)** for historical tracking
-- ✅ **Multiple Fact Types**: Transactional, Accumulating, and Snapshot facts
-- ✅ **Configuration-Driven Architecture** for easy extensibility
-- ✅ **Control Tables** for audit, watermark, error tracking
-- ✅ **Production-Ready** with idempotency, error handling, logging
-- ✅ **Delta Lake** for ACID transactions and time travel
+-  **SCD2 (Slowly Changing Dimensions Type 2)** for historical tracking
+-  **Multiple Fact Types**: Transactional, Accumulating, and Snapshot facts
+-  **Configuration-Driven Architecture** for easy extensibility
+-  **Control Tables** for audit, watermark, error tracking
+-  **Production-Ready** with idempotency, error handling, logging
+-  **Delta Lake** for ACID transactions and time travel
 
 ---
 
-## 🏗️ Architecture Overview
+##  Architecture Overview
 
 ### Medallion Architecture
 
@@ -53,7 +53,7 @@ This project implements a **Microsoft Fabric Lake House** solution for a multi-f
 
 ---
 
-## 📊 Data Model
+##  Data Model
 
 ### Input Data (Raw CSV Files)
 
@@ -102,25 +102,25 @@ This project implements a **Microsoft Fabric Lake House** solution for a multi-f
 
 ```
 Multifact Project/
-├── 📁 config/
-│   └── 📄 ingestion_config.json     # Central configuration
-├── 📁 control/
-│   ├── 📄 audit_log.csv            # Pipeline audit trail
-│   ├── 📄 watermark.csv            # Last processed tracking
-│   ├── 📄 error_records.csv        # Error logging
-│   └── 📄 table_metadata.csv       # Schema tracking
-├── 📁 data/
-│   └── 📁 raw/                     # Source CSV files
-├── 📁 notebooks/
-│   ├── 📄 01_bronze_layer.ipynb    # Data ingestion
-│   ├── 📄 02_silver_layer.ipynb    # SCD2 transformations
-│   └── 📄 03_gold_layer.ipynb      # Star schema creation
-└── 📄 README.md                    # Project overview
+├──  config/
+│   └──  ingestion_config.json     # Central configuration
+├──  control/
+│   ├──  audit_log.csv            # Pipeline audit trail
+│   ├──  watermark.csv            # Last processed tracking
+│   ├──  error_records.csv        # Error logging
+│   └──  table_metadata.csv       # Schema tracking
+├──  data/
+│   └──  raw/                     # Source CSV files
+├──  notebooks/
+│   ├──  01_bronze_layer.ipynb    # Data ingestion
+│   ├──  02_silver_layer.ipynb    # SCD2 transformations
+│   └──  03_gold_layer.ipynb      # Star schema creation
+└──  README.md                    # Project overview
 ```
 
 ---
 
-## 🔧 Configuration System
+##  Configuration System
 
 ### Configuration-Driven Architecture
 
@@ -190,7 +190,7 @@ To add a new table to the pipeline:
 
 ---
 
-## 📋 Control Tables
+##  Control Tables
 
 ### Audit Log (`control/audit_log.csv`)
 Tracks all pipeline operations with timestamps and status.
@@ -231,7 +231,7 @@ Captures failed records with detailed error information.
 
 ---
 
-## 🔄 SCD2 Implementation
+##  SCD2 Implementation
 
 ### What is SCD2?
 
@@ -283,7 +283,7 @@ customer_id | customer_name | email           | is_current | effective_start_dat
 
 ---
 
-## 📈 Fact Types
+##  Fact Types
 
 ### 1. Transactional Facts (`fact_order_transaction`)
 
@@ -328,7 +328,7 @@ customer_id | customer_name | email           | is_current | effective_start_dat
 
 ---
 
-## 🚀 Usage Guide
+##  Usage Guide
 
 ### Prerequisites
 
@@ -393,7 +393,7 @@ Query the gold layer tables for:
 
 ---
 
-## 🏭 Production Features
+##  Production Features
 
 ### 1. Idempotency
 - Safe to re-run notebooks multiple times
@@ -429,7 +429,7 @@ Query the gold layer tables for:
 
 ---
 
-## 🔧 Troubleshooting
+##  Troubleshooting
 
 ### Common Issues
 
@@ -467,7 +467,7 @@ Query the gold layer tables for:
 
 ---
 
-## 📚 Additional Resources
+##  Additional Resources
 
 ### Microsoft Fabric Documentation
 - [Lake House Overview](https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview)
@@ -486,7 +486,7 @@ Query the gold layer tables for:
 
 ---
 
-## 📞 Support
+##  Support
 
 For issues or questions:
 1. Check the troubleshooting section above
@@ -496,4 +496,4 @@ For issues or questions:
 
 ---
 
-**🎉 Your Microsoft Fabric Lake House is now ready for production use with comprehensive documentation!** 
+** Your Microsoft Fabric Lake House is now ready for production use with comprehensive documentation!** 
