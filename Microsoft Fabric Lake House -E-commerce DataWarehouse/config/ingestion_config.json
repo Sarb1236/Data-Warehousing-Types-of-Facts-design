@@ -1,0 +1,353 @@
+{
+  "bronze_layer": {
+    "raw_data_path": "../data/raw",
+    "bronze_data_path": "../data/bronze",
+    "tables": {
+      "customers": {
+        "source_file": "customers.csv",
+        "description": "Customer dimension table",
+        "data_quality_rules": {
+          "null_checks": ["customer_id", "customer_name", "email"],
+          "duplicate_checks": ["customer_id", "email"],
+          "data_type_validation": {
+            "customer_id": "int",
+            "customer_name": "string",
+            "email": "string"
+          }
+        }
+      },
+      "products": {
+        "source_file": "products.csv",
+        "description": "Product dimension table",
+        "data_quality_rules": {
+          "null_checks": ["product_id", "product_name", "unit_price"],
+          "duplicate_checks": ["product_id", "sku"],
+          "data_type_validation": {
+            "product_id": "int",
+            "unit_price": "decimal",
+            "cost_price": "decimal"
+          },
+          "business_rules": {
+            "unit_price": "> 0",
+            "cost_price": ">= 0"
+          }
+        }
+      },
+      "categories": {
+        "source_file": "categories.csv",
+        "description": "Product category dimension table",
+        "data_quality_rules": {
+          "null_checks": ["category_id", "category_name"],
+          "duplicate_checks": ["category_id", "category_code"],
+          "data_type_validation": {
+            "category_id": "int",
+            "category_name": "string"
+          }
+        }
+      },
+      "suppliers": {
+        "source_file": "suppliers.csv",
+        "description": "Supplier dimension table",
+        "data_quality_rules": {
+          "null_checks": ["supplier_id", "supplier_name"],
+          "duplicate_checks": ["supplier_id"],
+          "data_type_validation": {
+            "supplier_id": "int",
+            "supplier_name": "string"
+          }
+        }
+      },
+      "locations": {
+        "source_file": "locations.csv",
+        "description": "Location dimension table",
+        "data_quality_rules": {
+          "null_checks": ["location_id", "location_name"],
+          "duplicate_checks": ["location_id"],
+          "data_type_validation": {
+            "location_id": "int",
+            "location_name": "string"
+          }
+        }
+      },
+      "orders": {
+        "source_file": "orders.csv",
+        "description": "Order transaction fact table",
+        "data_quality_rules": {
+          "null_checks": ["order_id", "customer_id", "product_id", "total_amount"],
+          "duplicate_checks": ["order_id", "order_item_id"],
+          "data_type_validation": {
+            "order_id": "int",
+            "customer_id": "int",
+            "product_id": "int",
+            "total_amount": "decimal"
+          },
+          "business_rules": {
+            "total_amount": "> 0",
+            "quantity": "> 0"
+          }
+        }
+      },
+      "inventory": {
+        "source_file": "inventory.csv",
+        "description": "Inventory snapshot fact table",
+        "data_quality_rules": {
+          "null_checks": ["inventory_id", "product_id", "location_id"],
+          "duplicate_checks": ["inventory_id"],
+          "data_type_validation": {
+            "inventory_id": "int",
+            "product_id": "int",
+            "location_id": "int",
+            "stock_quantity": "int"
+          },
+          "business_rules": {
+            "stock_quantity": ">= 0",
+            "reserved_quantity": ">= 0"
+          }
+        }
+      }
+    }
+  },
+  "silver_layer": {
+    "bronze_data_path": "../data/bronze",
+    "silver_data_path": "../data/silver",
+    "transformation_rules": {
+      "customers": {
+        "columns": {
+          "customer_id": {"cast": "int"},
+          "customer_name": {"trim": true, "case": "title"},
+          "email": {"trim": true, "case": "lower"},
+          "phone": {"regex_replace": "[^0-9+]", "replacement": ""},
+          "address": {"trim": true},
+          "city": {"trim": true, "case": "title"},
+          "state": {"trim": true, "case": "upper"},
+          "country": {"trim": true, "case": "upper"},
+          "postal_code": {"trim": true},
+          "customer_type": {"trim": true, "case": "title"},
+          "registration_date": {"date_format": "yyyy-MM-dd"},
+          "status": {"trim": true, "case": "upper"}
+        },
+        "filters": [
+          "customer_id IS NOT NULL",
+          "customer_name IS NOT NULL",
+          "email IS NOT NULL"
+        ]
+      },
+      "products": {
+        "columns": {
+          "product_id": {"cast": "int"},
+          "product_name": {"trim": true},
+          "product_code": {"trim": true, "case": "upper"},
+          "description": {"trim": true},
+          "category_id": {"cast": "int"},
+          "unit_price": {"cast": "decimal(10,2)"},
+          "cost_price": {"cast": "decimal(10,2)"},
+          "sku": {"trim": true, "case": "upper"},
+          "manufacturer": {"trim": true},
+          "supplier_id": {"cast": "int"},
+          "weight_kg": {"cast": "decimal(5,3)"},
+          "dimensions": {"trim": true},
+          "color": {"trim": true, "case": "title"},
+          "size": {"trim": true},
+          "stock_quantity": {"cast": "int"},
+          "reorder_level": {"cast": "int"},
+          "created_date": {"date_format": "yyyy-MM-dd"},
+          "status": {"trim": true, "case": "upper"}
+        },
+        "filters": [
+          "product_id IS NOT NULL",
+          "product_name IS NOT NULL",
+          "unit_price > 0"
+        ]
+      },
+      "categories": {
+        "columns": {
+          "category_id": {"cast": "int"},
+          "category_name": {"trim": true},
+          "category_code": {"trim": true, "case": "upper"},
+          "description": {"trim": true},
+          "parent_category_id": {"cast": "int"},
+          "created_date": {"date_format": "yyyy-MM-dd"},
+          "status": {"trim": true, "case": "upper"}
+        },
+        "filters": [
+          "category_id IS NOT NULL",
+          "category_name IS NOT NULL"
+        ]
+      },
+      "suppliers": {
+        "columns": {
+          "supplier_id": {"cast": "int"},
+          "supplier_name": {"trim": true},
+          "contact_person": {"trim": true},
+          "email": {"trim": true, "case": "lower"},
+          "phone": {"regex_replace": "[^0-9+]", "replacement": ""},
+          "address": {"trim": true},
+          "city": {"trim": true, "case": "title"},
+          "state": {"trim": true, "case": "upper"},
+          "country": {"trim": true, "case": "upper"},
+          "postal_code": {"trim": true},
+          "supplier_type": {"trim": true, "case": "title"},
+          "payment_terms": {"trim": true},
+          "credit_limit": {"cast": "decimal(12,2)"},
+          "created_date": {"date_format": "yyyy-MM-dd"},
+          "status": {"trim": true, "case": "upper"}
+        },
+        "filters": [
+          "supplier_id IS NOT NULL",
+          "supplier_name IS NOT NULL"
+        ]
+      },
+      "locations": {
+        "columns": {
+          "location_id": {"cast": "int"},
+          "location_name": {"trim": true},
+          "location_type": {"trim": true, "case": "title"},
+          "address": {"trim": true},
+          "city": {"trim": true, "case": "title"},
+          "state": {"trim": true, "case": "upper"},
+          "country": {"trim": true, "case": "upper"},
+          "postal_code": {"trim": true},
+          "phone": {"regex_replace": "[^0-9+]", "replacement": ""},
+          "manager": {"trim": true},
+          "capacity_sqft": {"cast": "int"},
+          "created_date": {"date_format": "yyyy-MM-dd"},
+          "status": {"trim": true, "case": "upper"}
+        },
+        "filters": [
+          "location_id IS NOT NULL",
+          "location_name IS NOT NULL"
+        ]
+      },
+      "orders": {
+        "columns": {
+          "order_id": {"cast": "int"},
+          "order_item_id": {"cast": "int"},
+          "customer_id": {"cast": "int"},
+          "product_id": {"cast": "int"},
+          "order_date": {"date_format": "yyyy-MM-dd"},
+          "order_amount": {"cast": "decimal(10,2)"},
+          "quantity": {"cast": "int"},
+          "unit_price": {"cast": "decimal(10,2)"},
+          "discount_amount": {"cast": "decimal(10,2)"},
+          "tax_amount": {"cast": "decimal(10,2)"},
+          "shipping_amount": {"cast": "decimal(10,2)"},
+          "total_amount": {"cast": "decimal(10,2)"},
+          "payment_method": {"trim": true, "case": "title"},
+          "shipping_method": {"trim": true, "case": "title"},
+          "order_status": {"trim": true, "case": "title"},
+          "location_id": {"cast": "int"},
+          "created_date": {"timestamp_format": "yyyy-MM-dd HH:mm:ss"}
+        },
+        "filters": [
+          "order_id IS NOT NULL",
+          "customer_id IS NOT NULL",
+          "product_id IS NOT NULL",
+          "total_amount > 0"
+        ]
+      },
+      "inventory": {
+        "columns": {
+          "inventory_id": {"cast": "int"},
+          "product_id": {"cast": "int"},
+          "location_id": {"cast": "int"},
+          "stock_quantity": {"cast": "int"},
+          "reserved_quantity": {"cast": "int"},
+          "in_transit_quantity": {"cast": "int"},
+          "reorder_level": {"cast": "int"},
+          "reorder_quantity": {"cast": "int"},
+          "last_restock_date": {"date_format": "yyyy-MM-dd"},
+          "next_restock_date": {"date_format": "yyyy-MM-dd"},
+          "created_date": {"date_format": "yyyy-MM-dd"},
+          "status": {"trim": true, "case": "upper"}
+        },
+        "filters": [
+          "inventory_id IS NOT NULL",
+          "product_id IS NOT NULL",
+          "location_id IS NOT NULL"
+        ]
+      }
+    }
+  },
+  "control_tables": {
+    "audit_log": "../control/audit_log",
+    "watermark": "../control/watermark",
+    "error_records": "../control/error_records",
+    "metadata": "../control/table_metadata"
+  },
+  "gold_layer": {
+    "silver_data_path": "../data/silver",
+    "gold_data_path": "../data/gold",
+    "dimensions": {
+      "dim_customer": {
+        "source_table": "customers",
+        "scd_type": 2,
+        "business_key": "customer_id",
+        "columns": ["customer_id", "customer_name", "email", "phone", "address", "city", "state", "country", "postal_code", "customer_type", "registration_date", "status"],
+        "scd2_fields": ["customer_name", "email", "phone", "address", "city", "state", "country", "postal_code", "customer_type", "status"],
+        "key_column": "customer_id",
+        "key_alias": "customer_key"
+      },
+      "dim_product": {
+        "source_table": "products",
+        "scd_type": 2,
+        "business_key": "product_id",
+        "columns": ["product_id", "product_name", "product_code", "description", "category_id", "category_name", "category_code", "supplier_id", "supplier_name", "unit_price", "cost_price", "sku", "manufacturer", "weight_kg", "dimensions", "color", "size", "stock_quantity", "reorder_level", "status"],
+        "scd2_fields": ["product_name", "product_code", "description", "category_id", "category_name", "category_code", "supplier_id", "supplier_name", "unit_price", "cost_price", "sku", "manufacturer", "weight_kg", "dimensions", "color", "size", "stock_quantity", "reorder_level", "status"],
+        "key_column": "product_id",
+        "key_alias": "product_key"
+      },
+      "dim_location": {
+        "source_table": "locations",
+        "scd_type": 2,
+        "business_key": "location_id",
+        "columns": ["location_id", "location_name", "location_type", "address", "city", "state", "country", "postal_code", "phone", "manager", "capacity_sqft", "status"],
+        "scd2_fields": ["location_name", "location_type", "address", "city", "state", "country", "postal_code", "phone", "manager", "capacity_sqft", "status"],
+        "key_column": "location_id",
+        "key_alias": "location_key"
+      }
+    },
+    "facts": {
+      "fact_order_transaction": {
+        "source_table": "orders",
+        "joins": [
+          {"table": "dim_customer", "on": "customer_id", "type": "inner"},
+          {"table": "dim_product", "on": "product_id", "type": "inner"},
+          {"table": "dim_location", "on": "location_id", "type": "inner"},
+          {"table": "dim_date", "on": "order_date", "type": "inner", "date_format": "yyyyMMdd"}
+        ],
+        "columns": ["order_id", "order_item_id", "customer_key", "product_key", "location_key", "date_id", "order_amount", "quantity", "unit_price", "discount_amount", "tax_amount", "shipping_amount", "total_amount", "payment_method", "shipping_method", "order_status", "order_date"]
+      },
+      "fact_order_accumulating": {
+        "source_table": "orders",
+        "aggregations": {
+          "group_by": ["customer_id"],
+          "metrics": {
+            "total_orders": "count(order_id)",
+            "total_spent": "sum(total_amount)",
+            "avg_order_value": "avg(total_amount)",
+            "first_order_date": "min(order_date)",
+            "last_order_date": "max(order_date)"
+          }
+        },
+        "joins": [
+          {"table": "dim_customer", "on": "customer_id", "type": "inner"}
+        ],
+        "columns": ["customer_key", "customer_name", "customer_type", "total_orders", "total_spent", "avg_order_value", "first_order_date", "last_order_date", "days_since_first_order", "days_since_last_order"]
+      },
+      "fact_inventory_snapshot": {
+        "source_table": "inventory",
+        "joins": [
+          {"table": "dim_product", "on": "product_id", "type": "inner"},
+          {"table": "dim_location", "on": "location_id", "type": "inner"},
+          {"table": "dim_date", "on": "current_date", "type": "inner", "date_format": "yyyyMMdd"}
+        ],
+        "columns": ["product_key", "location_key", "date_id", "product_name", "category_name", "location_name", "stock_quantity", "reserved_quantity", "in_transit_quantity", "reorder_level", "reorder_quantity", "last_restock_date", "next_restock_date", "available_quantity", "stock_status"]
+      }
+    },
+    "analytical_views": {
+      "sales_summary": {
+        "query": "SELECT d.year, d.month, d.month_name, SUM(fot.total_amount) as total_revenue, COUNT(DISTINCT fot.order_id) as order_count, COUNT(DISTINCT fot.customer_key) as unique_customers, AVG(fot.total_amount) as avg_order_value, SUM(fot.quantity) as total_quantity_sold FROM fact_order_transaction fot JOIN dim_date d ON fot.date_id = d.date_id GROUP BY d.year, d.month, d.month_name ORDER BY d.year, d.month"
+      }
+    }
+  }
+} 
