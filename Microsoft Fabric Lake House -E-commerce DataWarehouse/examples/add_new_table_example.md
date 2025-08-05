@@ -86,10 +86,10 @@ Add the new table definition to `config/ingestion_config.json`:
 
 ### Step 3: Run the Notebook
 Simply re-run the bronze layer notebook - it will automatically:
-- ✅ Detect the new table from configuration
-- ✅ Ingest the CSV file to bronze layer
-- ✅ Apply data quality rules
-- ✅ Generate quality reports
+-  Detect the new table from configuration
+-  Ingest the CSV file to bronze layer
+-  Apply data quality rules
+-  Generate quality reports
 
 ## Configuration Options
 
@@ -108,10 +108,10 @@ Simply re-run the bronze layer notebook - it will automatically:
 - `analytical_views`: SQL queries for analytics
 
 ## Benefits
-- 🚀 **No Code Changes**: Add tables by updating config only
-- 🔄 **Automatic Processing**: New tables flow through all layers
-- 📊 **Quality Assurance**: Built-in data quality checks
-- 📈 **Scalable**: Easy to add hundreds of tables
+-  **No Code Changes**: Add tables by updating config only
+-  **Automatic Processing**: New tables flow through all layers
+-  **Quality Assurance**: Built-in data quality checks
+-  **Scalable**: Easy to add hundreds of tables
 
 ## Data Quality Rules
 - **null_checks**: Columns that must not be null
