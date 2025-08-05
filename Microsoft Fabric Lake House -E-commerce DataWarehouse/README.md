@@ -6,23 +6,23 @@ This project implements a comprehensive Microsoft Fabric Lake House solution for
 ## Architecture Components
 
 ### 1. Data Sources
-- **Transactional Data**: Orders, order items, payments, shipping
-- **Customer Data**: Customer profiles, demographics, preferences
-- **Product Data**: Product catalog, categories, inventory
-- **Time Data**: Date/time dimensions for temporal analysis
+- Transactional Data: Orders, order items, payments, shipping
+- Customer Data: Customer profiles, demographics, preferences
+- Product Data: Product catalog, categories, inventory
+- Time Data: Date/time dimensions for temporal analysis
 
 ### 2. Dimension Tables
-- **DimCustomer**: Customer information and demographics
-- **DimProduct**: Product catalog and attributes
-- **DimDate**: Time dimension for temporal analysis
-- **DimLocation**: Geographic and shipping information
-- **DimCategory**: Product categorization hierarchy
+- DimCustomer: Customer information and demographics
+- DimProduct: Product catalog and attributes
+- DimDate: Time dimension for temporal analysis
+- DimLocation: Geographic and shipping information
+- DimCategory: Product categorization hierarchy
 
 ### 3. Fact Tables
-- **FactOrderTransaction**: Transactional facts for order events
-- **FactOrderAccumulating**: Accumulating facts for customer lifetime value
-- **FactInventorySnapshot**: Snapshot facts for inventory levels
-- **FactCustomerSnapshot**: Snapshot facts for customer status
+- FactOrderTransaction: Transactional facts for order events
+- FactOrderAccumulating: Accumulating facts for customer lifetime value
+- FactInventorySnapshot: Snapshot facts for inventory levels
+- FactCustomerSnapshot: Snapshot facts for customer status
 
 ## Project Structure
 ```
@@ -47,11 +47,11 @@ This project implements a comprehensive Microsoft Fabric Lake House solution for
 ```
 
 ## Implementation Steps
-1. **Data Ingestion**: Load raw data into bronze layer
-2. **Data Processing**: Transform and clean data in silver layer
-3. **Star Schema Creation**: Build dimension and fact tables in gold layer
-4. **Data Quality**: Implement data quality checks
-5. **Analytics**: Create analytical queries and dashboards
+1. Data Ingestion: Load raw data into bronze layer
+2. Data Processing: Transform and clean data in silver layer
+3. Star Schema Creation: Build dimension and fact tables in gold layer
+4. Data Quality: Implement data quality checks
+5. Analytics: Create analytical queries and dashboards
 
 ## Technologies Used
 - Microsoft Fabric Lake House
