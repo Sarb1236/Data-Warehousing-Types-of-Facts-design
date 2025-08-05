@@ -1,10 +1,10 @@
 {
   "bronze_layer": {
-    "raw_data_path": "../data/raw",
-    "bronze_data_path": "../data/bronze",
+    "raw_data_path": "Files",
+    "bronze_data_path": "Tables/bronze",
     "tables": {
       "customers": {
-        "source_file": "customers.csv",
+        "source_file": "Files/customers.csv",
         "description": "Customer dimension table",
         "data_quality_rules": {
           "null_checks": ["customer_id", "customer_name", "email"],
@@ -17,7 +17,7 @@
         }
       },
       "products": {
-        "source_file": "products.csv",
+        "source_file": "Files/products.csv",
         "description": "Product dimension table",
         "data_quality_rules": {
           "null_checks": ["product_id", "product_name", "unit_price"],
@@ -34,7 +34,7 @@
         }
       },
       "categories": {
-        "source_file": "categories.csv",
+        "source_file": "Files/categories.csv",
         "description": "Product category dimension table",
         "data_quality_rules": {
           "null_checks": ["category_id", "category_name"],
@@ -46,7 +46,7 @@
         }
       },
       "suppliers": {
-        "source_file": "suppliers.csv",
+        "source_file": "Files/suppliers.csv",
         "description": "Supplier dimension table",
         "data_quality_rules": {
           "null_checks": ["supplier_id", "supplier_name"],
@@ -58,7 +58,7 @@
         }
       },
       "locations": {
-        "source_file": "locations.csv",
+        "source_file": "Files/locations.csv",
         "description": "Location dimension table",
         "data_quality_rules": {
           "null_checks": ["location_id", "location_name"],
@@ -70,7 +70,7 @@
         }
       },
       "orders": {
-        "source_file": "orders.csv",
+        "source_file": "Files/orders.csv",
         "description": "Order transaction fact table",
         "data_quality_rules": {
           "null_checks": ["order_id", "customer_id", "product_id", "total_amount"],
@@ -88,7 +88,7 @@
         }
       },
       "inventory": {
-        "source_file": "inventory.csv",
+        "source_file": "Files/inventory.csv",
         "description": "Inventory snapshot fact table",
         "data_quality_rules": {
           "null_checks": ["inventory_id", "product_id", "location_id"],
@@ -108,8 +108,8 @@
     }
   },
   "silver_layer": {
-    "bronze_data_path": "../data/bronze",
-    "silver_data_path": "../data/silver",
+    "bronze_data_path": "Tables/bronze",
+    "silver_data_path": "Tables/silver",
     "transformation_rules": {
       "customers": {
         "columns": {
@@ -269,14 +269,14 @@
     }
   },
   "control_tables": {
-    "audit_log": "../control/audit_log",
-    "watermark": "../control/watermark",
-    "error_records": "../control/error_records",
-    "metadata": "../control/table_metadata"
+    "audit_log": "Tables/control/audit_log",
+    "watermark": "Tables/control/watermark",
+    "error_records": "Tables/control/error_records",
+    "metadata": "Tables/control/table_metadata"
   },
   "gold_layer": {
-    "silver_data_path": "../data/silver",
-    "gold_data_path": "../data/gold",
+    "silver_data_path": "Tables/silver",
+    "gold_data_path": "Tables/gold",
     "dimensions": {
       "dim_customer": {
         "source_table": "customers",
