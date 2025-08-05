@@ -1,6 +1,6 @@
 # Microsoft Fabric Lake House - Multi-Fact E-commerce Project Documentation
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [Project Overview](#project-overview)
 2. [Architecture Overview](#architecture-overview)
@@ -16,21 +16,21 @@
 
 ---
 
-## Project Overview
+## 🎯 Project Overview
 
-This project implements a Microsoft Fabric Lake House solution for a multi-fact e-commerce system using a medallion architecture (Bronze to Silver to Gold) with star schema principles. The solution is configuration-driven and production-ready with SCD2 dimensions, multiple fact types, and comprehensive control tables.
+This project implements a **Microsoft Fabric Lake House** solution for a multi-fact e-commerce system using a **medallion architecture** (Bronze → Silver → Gold) with **star schema** principles. The solution is **configuration-driven** and **production-ready** with SCD2 dimensions, multiple fact types, and comprehensive control tables.
 
 ### Key Features
-- SCD2 (Slowly Changing Dimensions Type 2) for historical tracking
-- Multiple Fact Types: Transactional, Accumulating, and Snapshot facts
-- Configuration-Driven Architecture for easy extensibility
-- Control Tables for audit, watermark, error tracking
-- Production-Ready with idempotency, error handling, logging
-- Delta Lake for ACID transactions and time travel
+- ✅ **SCD2 (Slowly Changing Dimensions Type 2)** for historical tracking
+- ✅ **Multiple Fact Types**: Transactional, Accumulating, and Snapshot facts
+- ✅ **Configuration-Driven Architecture** for easy extensibility
+- ✅ **Control Tables** for audit, watermark, error tracking
+- ✅ **Production-Ready** with idempotency, error handling, logging
+- ✅ **Delta Lake** for ACID transactions and time travel
 
 ---
 
-## Architecture Overview
+## 🏗️ Architecture Overview
 
 ### Medallion Architecture
 
@@ -46,14 +46,14 @@ This project implements a Microsoft Fabric Lake House solution for a multi-fact 
 
 ### Data Flow
 
-1. Bronze Layer: Ingests raw CSV files with data quality checks
-2. Silver Layer: Applies SCD2 transformations and business logic
-3. Gold Layer: Creates star schema with dimensions and facts
-4. Control Tables: Track all operations across layers
+1. **Bronze Layer**: Ingests raw CSV files with data quality checks
+2. **Silver Layer**: Applies SCD2 transformations and business logic
+3. **Gold Layer**: Creates star schema with dimensions and facts
+4. **Control Tables**: Track all operations across layers
 
 ---
 
-## Data Model
+## 📊 Data Model
 
 ### Input Data (Raw CSV Files)
 
@@ -87,40 +87,40 @@ This project implements a Microsoft Fabric Lake House solution for a multi-fact 
 
 ---
 
-## Implementation Details
+## ⚙️ Implementation Details
 
 ### Technology Stack
 
-- Platform: Microsoft Fabric Lake House
-- Processing: Apache Spark (PySpark)
-- Storage: Delta Lake format
-- Language: Python
-- Configuration: JSON-based
-- Control: CSV-based control tables
+- **Platform**: Microsoft Fabric Lake House
+- **Processing**: Apache Spark (PySpark)
+- **Storage**: Delta Lake format
+- **Language**: Python
+- **Configuration**: JSON-based
+- **Control**: CSV-based control tables
 
 ### Project Structure
 
 ```
 Multifact Project/
-├── config/
-│   └── ingestion_config.json     # Central configuration
-├── control/
-│   ├── audit_log.csv            # Pipeline audit trail
-│   ├── watermark.csv            # Last processed tracking
-│   ├── error_records.csv        # Error logging
-│   └── table_metadata.csv       # Schema tracking
-├── data/
-│   └── raw/                     # Source CSV files
-├── notebooks/
-│   ├── 01_bronze_layer.ipynb    # Data ingestion
-│   ├── 02_silver_layer.ipynb    # SCD2 transformations
-│   └── 03_gold_layer.ipynb      # Star schema creation
-└── README.md                    # Project overview
+├── 📁 config/
+│   └── 📄 ingestion_config.json     # Central configuration
+├── 📁 control/
+│   ├── 📄 audit_log.csv            # Pipeline audit trail
+│   ├── 📄 watermark.csv            # Last processed tracking
+│   ├── 📄 error_records.csv        # Error logging
+│   └── 📄 table_metadata.csv       # Schema tracking
+├── 📁 data/
+│   └── 📁 raw/                     # Source CSV files
+├── 📁 notebooks/
+│   ├── 📄 01_bronze_layer.ipynb    # Data ingestion
+│   ├── 📄 02_silver_layer.ipynb    # SCD2 transformations
+│   └── 📄 03_gold_layer.ipynb      # Star schema creation
+└── 📄 README.md                    # Project overview
 ```
 
 ---
 
-## Configuration System
+## 🔧 Configuration System
 
 ### Configuration-Driven Architecture
 
@@ -184,13 +184,13 @@ The entire pipeline is driven by `config/ingestion_config.json`, which defines:
 
 To add a new table to the pipeline:
 
-1. Add CSV file to `data/raw/`
-2. Update configuration in `config/ingestion_config.json`
-3. Re-run notebooks - no code changes needed!
+1. **Add CSV file** to `data/raw/`
+2. **Update configuration** in `config/ingestion_config.json`
+3. **Re-run notebooks** - no code changes needed!
 
 ---
 
-## Control Tables
+## 📋 Control Tables
 
 ### Audit Log (`control/audit_log.csv`)
 Tracks all pipeline operations with timestamps and status.
@@ -231,11 +231,11 @@ Captures failed records with detailed error information.
 
 ---
 
-## SCD2 Implementation
+## 🔄 SCD2 Implementation
 
 ### What is SCD2?
 
-Slowly Changing Dimensions Type 2 tracks historical changes in dimension data by:
+**Slowly Changing Dimensions Type 2** tracks historical changes in dimension data by:
 - Creating new records when attributes change
 - Maintaining effective start/end dates
 - Using an `is_current` flag to identify current records
@@ -256,9 +256,9 @@ for field in scd2_fields:
 ```
 
 #### 3. Record Management
-- New Records: `effective_start_date = current_date()`, `is_current = True`
-- Expired Records: `effective_end_date = current_date()`, `is_current = False`
-- Unchanged Records: No modification
+- **New Records**: `effective_start_date = current_date()`, `is_current = True`
+- **Expired Records**: `effective_end_date = current_date()`, `is_current = False`
+- **Unchanged Records**: No modification
 
 #### 4. Surrogate Keys
 ```python
@@ -283,7 +283,7 @@ customer_id | customer_name | email           | is_current | effective_start_dat
 
 ---
 
-## Fact Types
+## 📈 Fact Types
 
 ### 1. Transactional Facts (`fact_order_transaction`)
 
@@ -328,20 +328,20 @@ customer_id | customer_name | email           | is_current | effective_start_dat
 
 ---
 
-## Usage Guide
+## 🚀 Usage Guide
 
 ### Prerequisites
 
-1. Microsoft Fabric Workspace with Lake House
-2. Apache Spark environment
-3. Delta Lake support
-4. Python with PySpark
+1. **Microsoft Fabric Workspace** with Lake House
+2. **Apache Spark** environment
+3. **Delta Lake** support
+4. **Python** with PySpark
 
 ### Step 1: Setup
 
-1. Upload files to your Fabric workspace
-2. Create Lake House if not exists
-3. Attach notebooks to your Lake House
+1. **Upload files** to your Fabric workspace
+2. **Create Lake House** if not exists
+3. **Attach notebooks** to your Lake House
 
 ### Step 2: Run Pipeline
 
@@ -380,20 +380,20 @@ customer_id | customer_name | email           | is_current | effective_start_dat
 ### Step 3: Monitor
 
 Check control tables for:
-- Audit Log: Pipeline execution status
-- Error Records: Failed operations
-- Watermark: Processing progress
+- **Audit Log**: Pipeline execution status
+- **Error Records**: Failed operations
+- **Watermark**: Processing progress
 
 ### Step 4: Analyze
 
 Query the gold layer tables for:
-- Customer Analytics: Lifetime value, segmentation
-- Product Analytics: Sales performance, inventory
-- Operational Analytics: Order processing, fulfillment
+- **Customer Analytics**: Lifetime value, segmentation
+- **Product Analytics**: Sales performance, inventory
+- **Operational Analytics**: Order processing, fulfillment
 
 ---
 
-## Production Features
+## 🏭 Production Features
 
 ### 1. Idempotency
 - Safe to re-run notebooks multiple times
@@ -406,30 +406,30 @@ Query the gold layer tables for:
 - Pipeline continues processing other tables
 
 ### 3. Data Quality
-- Null Checks: Ensures required fields are present
-- Duplicate Checks: Removes duplicate records
-- Data Type Validation: Ensures correct data types
-- Business Rules: Validates business logic (e.g., prices > 0)
+- **Null Checks**: Ensures required fields are present
+- **Duplicate Checks**: Removes duplicate records
+- **Data Type Validation**: Ensures correct data types
+- **Business Rules**: Validates business logic (e.g., prices > 0)
 
 ### 4. Logging & Monitoring
-- Audit Trail: Complete operation tracking
-- Performance Metrics: Row counts, processing times
-- Error Tracking: Detailed error information
-- Watermark Tracking: Incremental load support
+- **Audit Trail**: Complete operation tracking
+- **Performance Metrics**: Row counts, processing times
+- **Error Tracking**: Detailed error information
+- **Watermark Tracking**: Incremental load support
 
 ### 5. Configuration Management
-- Centralized Configuration: Single JSON file controls entire pipeline
-- Dynamic Table Addition: Add tables without code changes
-- Flexible Rules: Configurable data quality and transformation rules
+- **Centralized Configuration**: Single JSON file controls entire pipeline
+- **Dynamic Table Addition**: Add tables without code changes
+- **Flexible Rules**: Configurable data quality and transformation rules
 
 ### 6. Scalability
-- Delta Lake: ACID transactions and time travel
-- Spark Processing: Distributed computing capabilities
-- Modular Design: Easy to extend and maintain
+- **Delta Lake**: ACID transactions and time travel
+- **Spark Processing**: Distributed computing capabilities
+- **Modular Design**: Easy to extend and maintain
 
 ---
 
-## Troubleshooting
+## 🔧 Troubleshooting
 
 ### Common Issues
 
@@ -451,23 +451,23 @@ Query the gold layer tables for:
 
 ### Debug Steps
 
-1. Check Control Tables: Review audit_log and error_records
-2. Validate Configuration: Ensure JSON syntax is correct
-3. Test Individual Components: Run notebooks step by step
-4. Monitor Spark UI: Check for resource issues
-5. Review Logs: Check notebook execution logs
+1. **Check Control Tables**: Review audit_log and error_records
+2. **Validate Configuration**: Ensure JSON syntax is correct
+3. **Test Individual Components**: Run notebooks step by step
+4. **Monitor Spark UI**: Check for resource issues
+5. **Review Logs**: Check notebook execution logs
 
 ### Performance Optimization
 
-1. Partitioning: Use appropriate partition columns
-2. Caching: Cache frequently used DataFrames
-3. Broadcast Joins: For small dimension tables
-4. Memory Tuning: Adjust Spark memory settings
-5. Data Skew: Handle skewed data distributions
+1. **Partitioning**: Use appropriate partition columns
+2. **Caching**: Cache frequently used DataFrames
+3. **Broadcast Joins**: For small dimension tables
+4. **Memory Tuning**: Adjust Spark memory settings
+5. **Data Skew**: Handle skewed data distributions
 
 ---
 
-## Additional Resources
+## 📚 Additional Resources
 
 ### Microsoft Fabric Documentation
 - [Lake House Overview](https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview)
@@ -486,7 +486,7 @@ Query the gold layer tables for:
 
 ---
 
-## Support
+## 📞 Support
 
 For issues or questions:
 1. Check the troubleshooting section above
@@ -496,4 +496,4 @@ For issues or questions:
 
 ---
 
-Your Microsoft Fabric Lake House is now ready for production use with comprehensive documentation! 
+**🎉 Your Microsoft Fabric Lake House is now ready for production use with comprehensive documentation!** 
